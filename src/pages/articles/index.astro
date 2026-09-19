@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticlePreview from "../../components/ArticlePreview.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+
+const allArticles = await getCollection("articles");
+allArticles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout withGradient title="Food Fun Travel | Articles">
+  <div class="container">
+    <div class="grid-auto-fit">
+      {allArticles.map((article) => (
+        <ArticlePreview article={article} excerptLength={80} />
+      ))}
+    </div>
+  </div>
+  <div class="container">
+    <NewsletterCTA
+      withImage
+      heading="Want to get latest insights
+on Travel Fun Food?"
+    />
+  </div>
+</BaseLayout>

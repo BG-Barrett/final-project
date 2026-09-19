@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticlePreview from "../../components/ArticlePreview.astro";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("articles");
+
+  const uniqueTags = [
+    ...new Set(blogPosts.map((article) => article.data.tags).flat()),
+  ];
+
+  return uniqueTags.map((tag) => {
+    const slugFriendlyTag = tag.toLowerCase().replace(/\s+/g, "-");
+    const filteredArticles = blogPosts.filter((article) =>
+      article.data.tags.includes(tag),
+    );
+
+    return {
+      params: { tag: slugFriendlyTag },
+      props: { articles: filteredArticles, tag: tag },
+    };
+  });
+}
+
+const { articles, tag } = Astro.props;
+---
+
+<BaseLayout>
+  <div class="container flow">
+    <h1 class="heading-2 margin-block-end-8">All articles tagged with {tag}</h1>
+    <div class="grid-auto-fit">
+      {articles.map((article) => (
+        <ArticlePreview {article} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

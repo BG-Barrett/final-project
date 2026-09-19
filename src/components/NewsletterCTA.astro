@@ -1,0 +1,52 @@
+---
+import Button from "../components/Button.astro";
+
+const { heading, withImage } = Astro.props;
+---
+
+<section class:list={withImage && "with-image"}>
+  <h2>{heading}</h2>
+  <p>We promise we wont spam you</p>
+  <form class="margin-block-start-4">
+    <label class="visually-hidden" for="email">
+      Email:
+    </label>
+    <div class="flex-group">
+      <input id="email" placeholder="Email" />
+      <Button theme="primary">Subscribe to newsletter</Button>
+    </div>
+  </form>
+</section>
+
+<style lang="scss">
+  @use "../styles/abstracts" as *;
+
+  section {
+    padding: $newsletter-cta-base-padding;
+    background-image: $newsletter-cta-base-background-image;
+    border: $newsletter-cta-base-border;
+    border-radius: $newsletter-cta-base-border-radius;
+    font-size: $newsletter-cta-base-body-size;
+    color: $newsletter-cta-base-body-color;
+  }
+
+  h2 {
+    color: $newsletter-cta-base-heading-color;
+    font-family: $newsletter-cta-base-heading-family;
+    font-size: $newsletter-cta-base-heading-size;
+    font-weight: $newsletter-cta-base-heading-weight;
+  }
+
+  .with-image {
+    color: $newsletter-cta-image-body-color;
+    background-image: $newsletter-cta-image-background-image;
+    background-size: $newsletter-cta-image-background-size;
+    background-repeat: $newsletter-cta-image-background-repeat;
+    background-position: $newsletter-cta-image-background-position;
+
+    h2 {
+      font-size: $newsletter-cta-image-heading-size;
+      max-width: $newsletter-cta-image-heading-max-width;
+    }
+  }
+</style>

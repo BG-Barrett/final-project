@@ -1,10 +1,10 @@
 ---
-const { href, theme = "default" } = Astro.props;
+const { href, theme, class: className, icon } = Astro.props;
 let El = "button";
 if (href) El = "a";
 ---
 
-<El class="button" {href} data-type={theme}>
+<El class:list={["button", className]} {href} data-type={theme}>
   <slot />
 </El>
 
@@ -36,13 +36,63 @@ if (href) El = "a";
       }
     }
 
-    &[data-type="accent"] {
-      background-color: $button-accent-background;
-      color: $button-accent-color;
+    &[data-type="secondary"] {
+      background-color: $button-secondary-background;
+      color: $button-secondary-color;
+      outline: $button-secondary-outline;
+      outline-offset: $button-secondary-outline-offset;
 
       &:is(:hover, :focus) {
-        background-color: $button-accent-background-hover;
-        color: $button-accent-color-hover;
+        background-color: $button-secondary-background-hover;
+        color: $button-secondary-color-hover;
+      }
+    }
+
+    &[data-type="instagram"] {
+      position: relative;
+      z-index: 0;
+      background: $button-instagram-background;
+      color: $button-instagram-color;
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: inherit;
+        background: $button-instagram-background-hover;
+        opacity: 0;
+        transition: opacity 275ms ease;
+      }
+
+      &:is(:hover, :focus) {
+        color: $button-instagram-color-hover;
+
+        &::before {
+          opacity: 1;
+        }
+      }
+    }
+
+    &[data-type="twitter"] {
+      background-color: $button-twitter-background;
+      color: $button-twitter-color;
+      outline: $button-twitter-outline;
+      outline-offset: $button-twitter-outline-offset;
+
+      &:is(:hover, :focus) {
+        background-color: $button-twitter-background-hover;
+        color: $button-twitter-color-hover;
+      }
+    }
+
+    &[data-type="facebook"] {
+      background-color: $button-facebook-background;
+      color: $button-facebook-color;
+
+      &:is(:hover, :focus) {
+        background-color: $button-facebook-background-hover;
+        color: $button-facebook-color-hover;
       }
     }
   }

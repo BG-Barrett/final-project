@@ -1,0 +1,48 @@
+---
+// @ts-nocheck (generated types/client appear after your first tinacms dev run)
+import TinaMarkdown from '@tinacms/astro/TinaMarkdown.astro';
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { PostQuery } from '../../../tina/__generated__/types';
+import FormattedDate from '../FormattedDate.astro';
+import Tag from '../Tag.astro';
+import AboutTheAuthor from '../AboutTheAuthor.astro';
+import authorData from '../../content/authors/authors.json';
+
+interface Props {
+  data?: PostQuery['post'] | null;
+}
+const { data } = Astro.props;
+
+const authorInfo = data && authorData.find((author) => author.name === data.author);
+---
+{
+  data && (
+    <>
+      <div class="meta">
+        <div class="flex-group align-center">
+          {data.tags?.[0] && <Tag tag={data.tags[0]} data-tina-field={tinaField(data, 'tags')} />}
+          <FormattedDate date={new Date(data.date)} data-tina-field={tinaField(data, 'date')} />
+        </div>
+      </div>
+      <h1 class="heading-2" data-tina-field={tinaField(data, 'title')}>{data.title}</h1>
+      <img
+        src={data.imageSrc}
+        alt={data.imageAlt}
+        data-tina-field={tinaField(data, 'imageSrc')}
+      />
+      {data.body && (
+        <div class="body" data-tina-field={tinaField(data, 'body')}>
+          <TinaMarkdown content={data.body} />
+        </div>
+      )}
+      {authorInfo && (
+        <AboutTheAuthor
+          name={authorInfo.name}
+          description={authorInfo.description}
+          image={authorInfo.image}
+          data-tina-field={tinaField(data, 'author')}
+        />
+      )}
+    </>
+  )
+}

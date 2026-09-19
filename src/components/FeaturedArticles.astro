@@ -1,0 +1,31 @@
+---
+import ArticlePreview from "../components/ArticlePreview.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  heading: string;
+  articles: CollectionEntry<"articles">[];
+  excerptLength?: number;
+}
+
+const { heading, articles, excerptLength = 0 } = Astro.props;
+---
+
+<div class="container">
+  <section class="featured section | flow">
+    <h2 class="heading-2">{heading}</h2>
+    <div class="grid-auto-fit">
+      {articles.map((article) => (
+        <ArticlePreview {article} {excerptLength} />
+      ))}
+    </div>
+  </section>
+</div>
+
+<style lang="scss">
+  @use "../styles/abstracts" as *;
+
+  .featured {
+    margin-top: $section-padding-block;
+  }
+</style>

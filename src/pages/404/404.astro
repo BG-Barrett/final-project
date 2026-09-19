@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <div class="container">
+    <h1 class="heading-2 margin-block-12">
+      <span class="fs-900">Oh no!</span>
+      <br />
+      The page you are looking for doesn't exist! 😟
+    </h1>
+  </div>
+</BaseLayout>
+
+<style>
+  body {
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
+  }
+</style>

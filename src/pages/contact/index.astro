@@ -1,0 +1,69 @@
+---
+import Button from "../../components/Button.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Send a Message">
+  <div class="container flow" data-type="narrow">
+    <div class="">
+      <h1 class="heading-2">Send a Message</h1>
+      <p class="fs-600">
+        Feel free to use the form below to drop us a message. We'll do our best
+        to respond to your inquiry as soon as possible.
+      </p>
+      <form class="flow">
+        <label class="visually-hidden" for="name">
+          Name
+        </label>
+        <input id="name" placeholder="Name" />
+        <label class="visually-hidden" for="Email">
+          Email
+        </label>
+        <input id="email" placeholder="Email" />
+        <label class="visually-hidden" for="Message">
+          Message
+        </label>
+        <textarea id="message" placeholder="Message"></textarea>
+        <Button theme="primary">Send a message</Button>
+      </form>
+    </div>
+    <div class="top-divider">
+      <h2 class="fs-600 fw-extra-bold">Stay Connected on Social Media</h2>
+      <p class="fs-500">
+        For more instant updates, engaging content, and to be a part of our
+        vibrant community, follow us on social media. Feel free to tag us in
+        your travel and food adventures—we love hearing from fellow explorers!
+      </p>
+      <div class="flow">
+        <Button theme="instagram">Follow on Instagram</Button>
+        <Button theme="twitter">Follow on X</Button>
+        <Button theme="facebook">Follow on Facebook</Button>
+      </div>
+    </div>
+    <div class="top-divider">
+      <h2 class="fs-600 fw-extra-bold">Let's Connect and Explore Together</h2>
+      <p class="fs-500">
+        Thank you for considering reaching out to Travel Fun Food. We look
+        forward to connecting with you and sharing more adventures together.
+        Whether it's through email, social media, or in person, let's make the
+        journey of exploration and discovery even more enjoyable.
+      </p>
+      <NewsletterCTA heading="Want to get latest insights on Travel Food Fun?" />
+    </div>
+  </div>
+</BaseLayout>
+
+<style lang="scss">
+  @use "../../styles/abstracts/" as *;
+
+  input,
+  textarea,
+  :global(.button) {
+    width: 100%;
+  }
+
+  .top-divider {
+    border-top: $divider;
+  }
+</style>

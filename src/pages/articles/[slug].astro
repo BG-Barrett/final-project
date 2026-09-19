@@ -1,0 +1,94 @@
+---
+import { getCollection, render } from "astro:content";
+import TinaIsland from "@tinacms/astro/TinaIsland.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+import Tag from "../../components/Tag.astro";
+import FeaturedArticles from "../../components/FeaturedArticles.astro";
+import ViewAllBlogs from "../../components/ViewAllBlogs.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import { islands } from "../../lib/tina/islands";
+
+import authorData from "../../content/authors/authors.json";
+import AboutTheAuthor from "../../components/AboutTheAuthor.astro";
+
+export const prerender = true;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("articles");
+
+  return blogPosts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const articleAuthor = post.data.author;
+const authorInfo = authorData.find(function (author) {
+  return author.name === articleAuthor;
+});
+
+if (!authorInfo) {
+  throw new Error(`No author found matching "${articleAuthor}"`);
+}
+
+const featuredArticles = await getCollection("articles", ({ data }) => {
+  return data.featured;
+});
+---
+
+<BaseLayout>
+  <TinaIsland
+    name="post"
+    wrapper={islands.post.wrapper}
+    params={{ slug: post.id }}
+    primary
+  >
+    <div class="meta">
+      <div class="flex-group align-center">
+        <Tag tag={post.data.tags[0]} />
+        <FormattedDate date={post.data.date} />
+      </div>
+      <a
+        href="#"
+        class="flex-group align-center"
+        style="--flex-column-gap: .5rem"
+      >
+        <img src="/images/share.svg" alt="" />
+        <span>Share</span>
+      </a>
+    </div>
+    <h1 class="heading-2">{post.data.title}</h1>
+    <img src={post.data.imageSrc} alt={post.data.imageAlt} />
+    <Content />
+    <AboutTheAuthor
+      name={authorInfo.name}
+      description={authorInfo.description}
+      image={authorInfo.image}
+    />
+  </TinaIsland>
+  <FeaturedArticles
+    heading="Featured Travel articles"
+    articles={featuredArticles.slice(0, 3)}
+    excerptLength={80}
+  />
+  <ViewAllBlogs />
+  <NewsletterCTA
+    withImage
+    heading="Want to get the latest insights on Travel Fun Food?"
+  />
+</BaseLayout>
+
+<style lang="scss">
+  @use "../../styles/abstracts" as *;
+
+  .meta {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+</style>
